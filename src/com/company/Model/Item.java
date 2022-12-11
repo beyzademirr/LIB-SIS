@@ -1,0 +1,74 @@
+package com.company.Model;
+
+public class Item {
+    private int itemId;
+    private String location;
+    private String author;
+    private int year;
+    private int pages;
+    private boolean isAvailable;
+
+    public Item(int itemId, String location, String author, int year, int pages, boolean isAvailable) {
+        this.itemId = itemId;
+        this.location = location;
+        this.author = author;
+        this.year = year;
+        this.pages = pages;
+        this.isAvailable = isAvailable;
+    }
+    public Item(String location, String author, int year, int pages, boolean isAvailable) {
+        this.location = location;
+        this.author = author;
+        this.year = year;
+        this.pages = pages;
+        this.isAvailable = isAvailable;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+}

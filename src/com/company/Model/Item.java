@@ -8,6 +8,16 @@ public class Item {
     private int pages;
     private boolean isAvailable;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String name;
+
     public Item(int itemId, String location, String author, int year, int pages, boolean isAvailable) {
         this.itemId = itemId;
         this.location = location;
@@ -17,6 +27,15 @@ public class Item {
         this.isAvailable = isAvailable;
     }
     public Item(String location, String author, int year, int pages, boolean isAvailable) {
+        this.location = location;
+        this.author = author;
+        this.year = year;
+        this.pages = pages;
+        this.isAvailable = isAvailable;
+    }
+
+    public Item(int itemId, String author, boolean isAvailable, int year, int pages, String location, String name) {
+        this.itemId = itemId;
         this.location = location;
         this.author = author;
         this.year = year;

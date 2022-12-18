@@ -41,6 +41,7 @@ public class Item {
         this.year = year;
         this.pages = pages;
         this.isAvailable = isAvailable;
+        this.name = name;
     }
 
     public int getItemId() {

@@ -9,6 +9,8 @@ public class Student {
     private String studentPassword;
     private ArrayList<Item> items;
     private boolean isBlocked;
+     private String studentName;
+    private String studentSurname;
 
     public Student(int studentId, String studentMail, String studentPassword, ArrayList<Item> items, boolean isBlocked) {
         this.studentId = studentId;
@@ -70,5 +72,21 @@ public class Student {
 
     public void setBlocked(boolean blocked) {
         isBlocked = blocked;
+    }
+    
+        public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public String getStudentSurname() {
+        return studentSurname;
+    }
+
+    public void setStudentSurname(String studentSurname) {
+        this.studentSurname = studentSurname;
     }
 }

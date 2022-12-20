@@ -26,6 +26,10 @@ public class SignUpPage extends JFrame {
 
         signUpButton.addActionListener(new SignUpListener());
     }
+    
+    public JPanel getPanel() {
+        return panel;
+    }
 
     public boolean signUp(String email, String name, String surname, String password1, String password2) {
 

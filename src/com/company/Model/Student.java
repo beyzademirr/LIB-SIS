@@ -23,6 +23,14 @@ public class Student {
         this.items = items;
         this.isBlocked = isBlocked;
     }
+    
+        public Student(String studentName, String studentSurname, String studentEmail, String studentPassword, boolean isBlocked) {
+        this.studentMail = studentEmail;
+        this.studentPassword = studentPassword;
+        this.isBlocked = isBlocked;
+        this.studentName = studentName;
+        this.studentSurname = studentSurname;
+    }
 
     public int getStudentId() {
         return studentId;

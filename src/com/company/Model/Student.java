@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Student {
 
+    private  String studentSurname;
+    private  String studentName;
     private int studentId;
     private String studentMail;
     private String studentPassword;
     private ArrayList<Item> items;
     private boolean isBlocked;
-     private String studentName;
-    private String studentSurname;
 
     public Student(int studentId, String studentMail, String studentPassword, ArrayList<Item> items, boolean isBlocked) {
         this.studentId = studentId;
@@ -26,12 +26,17 @@ public class Student {
         this.isBlocked = isBlocked;
     }
     
-        public Student(String studentName, String studentSurname, String studentEmail, String studentPassword, boolean isBlocked) {
+        public Student(int studentId, String studentName, String studentSurname, String studentEmail, String studentPassword, boolean isBlocked) {
+        this.studentId = studentId;
         this.studentMail = studentEmail;
         this.studentPassword = studentPassword;
         this.isBlocked = isBlocked;
         this.studentName = studentName;
         this.studentSurname = studentSurname;
+    }
+
+    public Student() {
+
     }
 
     public int getStudentId() {
@@ -72,21 +77,5 @@ public class Student {
 
     public void setBlocked(boolean blocked) {
         isBlocked = blocked;
-    }
-    
-        public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public String getStudentSurname() {
-        return studentSurname;
-    }
-
-    public void setStudentSurname(String studentSurname) {
-        this.studentSurname = studentSurname;
     }
 }

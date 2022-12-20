@@ -9,26 +9,30 @@ import java.awt.event.*;
 public class SignUpPage extends JFrame {
     private JTextField email;
     private JButton signUpButton;
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
     private JPanel panel;
     private JTextField fName;
     private JTextField lName;
     private JPasswordField passwordField1;
     private JPasswordField passwordField2;
     private DatabaseOperation operation;
-    private final JFrame frame;
 
-    public SignUpPage(JFrame frame, DatabaseOperation operation) {
+
+    public SignUpPage(DatabaseOperation operation) {
         this.operation = operation;
-        this.frame = frame;
 
-        frame.setVisible(true);
-        frame.setContentPane(panel);
+        setContentPane(panel);
+        setSize(800, 450);
+        setVisible(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
 
         signUpButton.addActionListener(new SignUpListener());
-    }
-    
-    public JPanel getPanel() {
-        return panel;
     }
 
     public boolean signUp(String email, String name, String surname, String password1, String password2) {
@@ -52,22 +56,13 @@ public class SignUpPage extends JFrame {
 
             boolean success = operation.addStudent(name, surname, email, password1);
             if (success) {
-                LoginPage reLogin = new LoginPage(frame, operation);
-                frame.getContentPane().removeAll();
-                frame.repaint();
+                JOptionPane.showMessageDialog(null, "SignUp is successful, please login", "Information", JOptionPane.INFORMATION_MESSAGE);
 
-                frame.getContentPane().add(reLogin.getPanel());
-                frame.revalidate();
                 return true;
             }
             else {
                 JOptionPane.showMessageDialog(null, "There is another account using same email", "Error", JOptionPane.ERROR_MESSAGE);
-                LoginPage reLogin = new LoginPage(frame , operation);
-                frame.getContentPane().removeAll();
-                frame.repaint();
 
-                frame.getContentPane().add(reLogin.getPanel());
-                frame.revalidate();
                 return false;
             }
 
@@ -89,5 +84,12 @@ public class SignUpPage extends JFrame {
         }
 
 
+    }
+
+    public static void main(String[] args) {
+        DatabaseOperation op = new DatabaseOperation();
+        JFrame frame = new JFrame();
+
+        SignUpPage sp = new SignUpPage(op);
     }
 }

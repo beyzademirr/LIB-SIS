@@ -2,6 +2,7 @@ package com.company.Model;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseOperation {
     public Connection con;

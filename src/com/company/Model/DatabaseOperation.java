@@ -38,7 +38,29 @@ public class DatabaseOperation {
         return isConnected;
     }
 
-    
+    public boolean checkForAdminLogin(String adminEmail, String adminPassword) {
+        try {
+            // Creating sql query
+            String query = "SELECT * FROM Admin WHERE AdminEmail = \"" + adminEmail + "\" AND AdminPassword = \"" + adminPassword + "\"";
+
+            // Creating statement for database
+            statement = con.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            // If the admin exists return true
+            if (resultSet.next()) {
+                return true;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        // If the admin doesn't exists return false
+        return false;
+
+     }
      public boolean checkForStudentLogin(String studentEmail, String studentPassword) {
 
         try {
@@ -64,7 +86,7 @@ public class DatabaseOperation {
         return false;
 
     }
-public boolean addStudent(String studentName, String studentSurname, String studentEmail, String studentPassword) {
+     public boolean addStudent(String studentName, String studentSurname, String studentEmail, String studentPassword) {
         try {
 
             String query = "INSERT INTO Student (StudentName, StudentSurname, StudentEmail, StudentPassword, StudentStatus)  " +

@@ -57,8 +57,8 @@ public class LoginPage {
     public boolean login(String email, String password){
 
 
-        if (email.equals("admin") && password.equals("admin")) {
-
+        if (operation.checkForAdminLogin(email, password)) {
+            System.out.println("Logged in");
             //create admin login
 
             return true;

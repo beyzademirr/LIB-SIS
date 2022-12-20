@@ -25,6 +25,12 @@ public class LoginPage {
         this.frame = frame;
         frame.setContentPane(panel);
         frame.setVisible(true);
+        
+        frame.setSize(1600, 900);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
 
 
         loginButton.addActionListener(new ActionListener() {
@@ -39,12 +45,7 @@ public class LoginPage {
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                frame.repaint();
-
-                SignUpPage signup = new SignUpPage(frame, operation);
-                frame.setContentPane(signup.getPanel());
-                frame.revalidate();
+                SignUpPage signup = new SignUpPage(operation);
             }
         });
     }

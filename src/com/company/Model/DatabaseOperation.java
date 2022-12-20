@@ -37,6 +37,32 @@ public class DatabaseOperation {
         return isConnected;
     }
 
+    
+     public boolean checkForStudentLogin(String studentEmail, String studentPassword) {
+
+        try {
+
+            // Creating sql query
+            String query = "SELECT studentName FROM Student WHERE studentEmail = \"" + studentEmail + "\" AND studentPassword = \"" + studentPassword + "\"";
+
+            // Creating statement for database
+            statement = con.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            // If the student exists return true
+            if (resultSet.next()) {
+                return true;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        // If the student doesn't exists return false
+        return false;
+
+    }
 public boolean addStudent(String studentName, String studentSurname, String studentEmail, String studentPassword) {
         try {
 

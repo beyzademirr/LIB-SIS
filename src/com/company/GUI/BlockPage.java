@@ -3,6 +3,8 @@ package com.company.GUI;
 import com.company.Model.DatabaseOperation;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BlockPage extends JFrame {
     private JPanel panel;
@@ -18,6 +20,22 @@ public class BlockPage extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        blockButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textField1.getText());
+                operation.blockStudent(id);
+                dispose();
+            }
+        });
+        unBlockButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textField1.getText());
+                operation.unBlockStudent(id);
+                dispose();
+            }
+        });
     }
 
 

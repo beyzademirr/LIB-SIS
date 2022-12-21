@@ -38,7 +38,8 @@ public class AdminPage  {
         seeReservationHistoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               // HistoryTable historyTable = new HistoryTable();
+               HistoryTable historyTable = new HistoryTable(databaseOperation.getAllHistory());
+
             }
         });
     }

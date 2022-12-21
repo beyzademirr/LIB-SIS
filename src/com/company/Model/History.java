@@ -15,6 +15,9 @@ public class History {
         this.resTime = resTime;
     }
 
+    public History() {
+    }
+
     public int getHistoryID() {
         return historyID;
     }

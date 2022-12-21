@@ -73,7 +73,7 @@ public class LoginPage {
                 frame.getContentPane().removeAll();
                 frame.setLayout(new BorderLayout());
 
-                Student student = operation.pull_student(email);
+                Student student = operation.pullStudent(email);
                // Library library = new Library(frame, operation, student);
                 //LPanel lPanel = new LPanel(frame, operation, garage, student);
                 //frame.getContentPane().add(library.productPanel, BorderLayout.CENTER);

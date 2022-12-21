@@ -34,6 +34,8 @@ public class DatabaseOperation {
         }
     }
 
+
+
     public boolean checkForConnection(){
         return isConnected;
     }
@@ -317,4 +319,6 @@ public class DatabaseOperation {
         }
 
     }
+
+
 }

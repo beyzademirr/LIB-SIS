@@ -209,7 +209,7 @@ public class DatabaseOperation {
         try {
 
             ArrayList<Item> items = new ArrayList<>();
-            String query = "SELECT * FROM Item WHERE Name = " + name + ";";
+            String query = "SELECT * FROM Item WHERE Name = '" + name + "';";
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
 

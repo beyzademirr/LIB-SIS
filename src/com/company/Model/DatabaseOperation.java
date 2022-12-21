@@ -34,8 +34,6 @@ public class DatabaseOperation {
         }
     }
 
-
-
     public boolean checkForConnection(){
         return isConnected;
     }
@@ -165,21 +163,38 @@ public class DatabaseOperation {
 
         }
     }
+    public void addItemById(int id, String location, String author, int year, int pages, boolean isAvailable, String name) {
+        try {
+            String query = "INSERT INTO Item (ItemID, Author, Availability, Year, Pages, ItemName, Location) " +
+                    "VALUES (" +"" + id + ",'"+ author + "'," + true + ",'" + year + "','" + pages + "','"+ name +"','" + location +"');";
+
+            statement = con.createStatement();
+            statement.executeUpdate(query);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Item findItemById(int ID) {
         try {
-
             String query = "SELECT * FROM Item WHERE ItemID = " + ID + ";";
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
-            set.next();
-            return new Item(set.getInt("ItemID"), set.getString("ItemName"), set.getString("Author"), set.getBoolean("Availability"),
-                    set.getInt("year"), set.getInt("Pages"), set.getString("Location"));
-
+            if(set.next()) {
+                Item item = new Item();
+                item.setItemId(set.getInt("ItemID"));
+                item.setLocation(set.getString("Location"));
+                item.setAuthor(set.getString("Author"));
+                item.setAvailable(set.getBoolean("Availability"));
+                item.setName(set.getString("ItemName"));
+                item.setPages( set.getInt("Pages"));
+                item.setYear(set.getInt("Year"));
+                return item;
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return null;
     }
     public Item findItemByLocation(String location) {
@@ -209,13 +224,20 @@ public class DatabaseOperation {
         try {
 
             ArrayList<Item> items = new ArrayList<>();
-            String query = "SELECT * FROM Item WHERE Name = '" + name + "';";
+            String query = "SELECT * FROM Item WHERE ItemName = '" + name + "';";
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
 
-
-            if (set.next()) { items.add(new Item(set.getInt("ItemID"), set.getString("ItemName"), set.getString("Author"), set.getBoolean("Availability"),
-                    set.getInt("year"), set.getInt("Pages"), set.getString("Location")));
+            if (set.next()) {
+                Item item = new Item();
+                item.setItemId(set.getInt("ItemID"));
+                item.setLocation(set.getString("Location"));
+                item.setAuthor(set.getString("Author"));
+                item.setAvailable(set.getBoolean("Availability"));
+                item.setName(set.getString("ItemName"));
+                item.setPages( set.getInt("Pages"));
+                item.setYear(set.getInt("Year"));
+                items.add(item);
             }
 
             return items;
@@ -230,13 +252,20 @@ public class DatabaseOperation {
         try {
 
             ArrayList<Item> items = new ArrayList<>();
-            String query = "SELECT * FROM Item WHERE Author = " + name + ";";
+            String query = "SELECT * FROM Item WHERE Author = '" + name + "';";
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
 
-
-            if (set.next()) { items.add(new Item(set.getInt(1), set.getString(2), set.getString(3),
-                    set.getBoolean(4), set.getInt(5), set.getInt(6), set.getString(7)));
+            if (set.next()) {
+                Item item = new Item();
+                item.setItemId(set.getInt("ItemID"));
+                item.setLocation(set.getString("Location"));
+                item.setAuthor(set.getString("Author"));
+                item.setAvailable(set.getBoolean("Availability"));
+                item.setName(set.getString("ItemName"));
+                item.setPages( set.getInt("Pages"));
+                item.setYear(set.getInt("Year"));
+                items.add(item);
             }
 
             return items;
@@ -256,9 +285,16 @@ public class DatabaseOperation {
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
 
-
-            if (set.next()) { items.add(new Item(set.getInt("ItemID"), set.getString("ItemName"), set.getString("Author"), set.getBoolean("Availability"),
-                    set.getInt("year"), set.getInt("Pages"), set.getString("Location")));
+            if (set.next()) {
+                Item item = new Item();
+                item.setItemId(set.getInt("ItemID"));
+                item.setLocation(set.getString("Location"));
+                item.setAuthor(set.getString("Author"));
+                item.setAvailable(set.getBoolean("Availability"));
+                item.setName(set.getString("ItemName"));
+                item.setPages( set.getInt("Pages"));
+                item.setYear(set.getInt("Year"));
+                items.add(item);
             }
 
             return items;
@@ -270,8 +306,18 @@ public class DatabaseOperation {
         return null;
     }
 
-    public void deleteItem(int ID) {
+    public void modifyItem(int ID, boolean status) {
 
+        try {
+            String query = "UPDATE Item SET Availability = " + status + " WHERE ItemID= "+ ID +"";
+            statement = con.createStatement();
+            statement.executeUpdate(query);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void deleteItem(int ID) {
         try {
            String query = "DELETE FROM Item WHERE ItemID = " + ID + "";
             statement = con.createStatement();
@@ -319,6 +365,4 @@ public class DatabaseOperation {
         }
 
     }
-
-
 }

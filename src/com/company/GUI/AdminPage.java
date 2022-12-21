@@ -11,7 +11,6 @@ public class AdminPage  {
     private JPanel panel;
     private JButton blockUnBlockStudentButton;
     private JButton bookOperationsButton;
-    private JButton removeReservationButton;
     private JButton seeReservationHistoryButton;
     private JFrame frame;
     private DatabaseOperation databaseOperation;

@@ -37,7 +37,7 @@ public class BookOperations extends JFrame {
                 if(!location.getText().equals("") && !author.getText().equals("") && !year.getText().equals("") && !pages.getText().equals("")){
                     int yearInt = Integer.parseInt(year.getText());
                     int pagesInt = Integer.parseInt(pages.getText());
-                    operation.addItem(location.getText(), author.getText(), yearInt, pagesInt, true, name.getText());
+                    addItem(location.getText(), author.getText(), yearInt, pagesInt, true, name.getText());
                     dispose();
                 }
                 else{
@@ -50,7 +50,7 @@ public class BookOperations extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(!itemId.getText().equals("")){
                     int id = Integer.parseInt(itemId.getText());
-                    operation.deleteItem(id);
+                    deleteItem(id);
                     dispose();
                 }
                 else{
@@ -65,10 +65,10 @@ public class BookOperations extends JFrame {
                     int id = Integer.parseInt(itemId.getText());
                     Item item = operation.findItemById(id);
                     if (item.isAvailable()){
-                        operation.modifyItem(id, false);
+                        modifyItem(id, false);
                     }
                     else{
-                        operation.modifyItem(id, true);
+                        modifyItem(id, true);
                     }
                     dispose();
                 }
@@ -82,7 +82,7 @@ public class BookOperations extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(!resID.getText().equals("")){
                     int id = Integer.parseInt(resID.getText());
-                    operation.removeRes(id);
+                    removeRes(id);
                     dispose();
                 }
                 else{
@@ -90,5 +90,23 @@ public class BookOperations extends JFrame {
                 }
             }
         });
+    }
+
+    public void addItem(String location, String author, int year, int pages, boolean isAvailable, String name) {
+        operation.addItem(location, author, year, pages, true, name);
+    }
+
+    public void deleteItem(int id){
+        operation.deleteItem(id);
+    }
+
+    public void modifyItem(int id,boolean b){
+        operation.modifyItem(id, b);
+
+    }
+
+    public void removeRes(int id){
+        operation.removeRes(id);
+
     }
 }

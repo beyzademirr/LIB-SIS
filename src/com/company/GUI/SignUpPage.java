@@ -83,10 +83,5 @@ public class SignUpPage extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        DatabaseOperation op = new DatabaseOperation();
-        JFrame frame = new JFrame();
 
-        SignUpPage sp = new SignUpPage(op);
-    }
 }

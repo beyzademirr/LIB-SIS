@@ -24,7 +24,7 @@ public class BlockPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int id = Integer.parseInt(textField1.getText());
-                operation.blockStudent(id);
+                blockStudent(id);
                 dispose();
             }
         });
@@ -32,12 +32,17 @@ public class BlockPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int id = Integer.parseInt(textField1.getText());
-                operation.unBlockStudent(id);
+                unBlockStudent(id);
                 dispose();
             }
         });
     }
 
+    public void blockStudent(int id){
+    operation.blockStudent(id);
+    }
 
-
+    public void unBlockStudent(int id){
+        operation.unBlockStudent(id);
+    }
 }

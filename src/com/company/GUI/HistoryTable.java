@@ -98,12 +98,6 @@ public class HistoryTable extends JFrame{
     }
 
 
-    //test
-    public static void main(String[] args) {
 
-        History hist = new History(1,2,3, new Date());
-        ArrayList<History> h = new ArrayList<>();
-        h.add(hist);
-        new HistoryTable(h);
-    }
+
 }

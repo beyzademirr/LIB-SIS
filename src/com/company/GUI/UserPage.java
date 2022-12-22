@@ -1,12 +1,14 @@
 package com.company.GUI;
 
 import com.company.Model.DatabaseOperation;
+import com.company.Model.History;
 import com.company.Model.Item;
 import com.company.Model.Student;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class UserPage {
     private JTextField itemId;
@@ -36,7 +38,7 @@ public class UserPage {
         historyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                HistoryTable table = new HistoryTable(operation.getStudentHistory(student.getStudentId()));
+                HistoryTable table = new HistoryTable(getStudentHistory(student.getStudentId()));
                 
             }
         });
@@ -46,15 +48,9 @@ public class UserPage {
         return Panel;
     }
 
-    public static void main(String[] args) {
-        DatabaseOperation op = new DatabaseOperation();
-        JFrame frame = new JFrame();
-        Student student= new Student(22,"uu@ozu.edu.tr", "djkfndsg", null,false);
-        frame.setVisible(true);
 
-        UserPage sp = new UserPage(op, student);
-
-        frame.setContentPane(sp.getPanel());
+    public ArrayList<History> getStudentHistory(int id){
+        return operation.getStudentHistory(id);
     }
 
 }

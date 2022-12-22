@@ -1,12 +1,14 @@
 package com.company.GUI;
 
 import com.company.Model.DatabaseOperation;
+import com.company.Model.Item;
 import com.company.Model.Student;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class LPanel {
     private JButton profile;
@@ -53,12 +55,16 @@ public class LPanel {
         books.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ItemList table = new ItemList(operation.getAllItems());
+                ItemList table = new ItemList(getAllItems());
             }
         });
     }
 
     public JPanel getHomePanel() {
         return homePanel;
+    }
+
+    public ArrayList<Item> getAllItems(){
+        return operation.getAllItems();
     }
 }

@@ -1,11 +1,13 @@
 package com.company.GUI;
 
 import com.company.Model.DatabaseOperation;
+import com.company.Model.History;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class AdminPage  {
     private JPanel panel;
@@ -37,21 +39,16 @@ public class AdminPage  {
         seeReservationHistoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               HistoryTable historyTable = new HistoryTable(databaseOperation.getAllHistory());
+               HistoryTable historyTable = new HistoryTable(getAllHistory());
 
             }
         });
     }
 
-    public static void main(String[] args) {
-        DatabaseOperation op = new DatabaseOperation();
-        JFrame frame = new JFrame();
 
-        frame.setVisible(true);
+    public ArrayList<History> getAllHistory(){
+        return databaseOperation.getAllHistory();
 
-        AdminPage sp = new AdminPage(frame,op);
-
-        frame.setContentPane(sp.getPanel());
     }
 
     public JPanel getPanel() {

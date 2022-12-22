@@ -229,7 +229,7 @@ public class DatabaseOperation {
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
 
-            if (set.next()) {
+            while (set.next()) {
                 Item item = new Item();
                 item.setItemId(set.getInt("ItemID"));
                 item.setLocation(set.getString("Location"));
@@ -257,7 +257,7 @@ public class DatabaseOperation {
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
 
-            if (set.next()) {
+            while (set.next()) {
                 Item item = new Item();
                 item.setItemId(set.getInt("ItemID"));
                 item.setLocation(set.getString("Location"));
@@ -286,7 +286,9 @@ public class DatabaseOperation {
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
 
-            if (set.next()) {
+
+
+            while (set.next()) {
                 Item item = new Item();
                 item.setItemId(set.getInt("ItemID"));
                 item.setLocation(set.getString("Location"));
@@ -296,6 +298,7 @@ public class DatabaseOperation {
                 item.setPages( set.getInt("Pages"));
                 item.setYear(set.getInt("Year"));
                 items.add(item);
+
             }
 
             return items;
@@ -403,7 +406,7 @@ public class DatabaseOperation {
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
 
-            if (set.next()) {
+            while (set.next()) {
                 History history = new History();
                 history.setHistoryID(set.getInt("ResID"));
                 history.setStudentID(set.getInt("StudentID"));
@@ -427,7 +430,7 @@ public class DatabaseOperation {
             statement = con.createStatement();
             ResultSet set = statement.executeQuery(query);
 
-            if (set.next()) {
+            while (set.next()) {
                 History history = new History();
                 history.setHistoryID(set.getInt("ResID"));
                 history.setStudentID(set.getInt("StudentID"));

@@ -101,7 +101,7 @@ public class LoginPage {
                 JOptionPane.showMessageDialog(null, "Please make sure no credentials missing", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             } else if (!loginCheck) {
-                JOptionPane.showMessageDialog(null, "Wrong data entered.");
+                JOptionPane.showMessageDialog(null, "Wrong credentials entered.");
                 return false;
             }
         }

@@ -1,5 +1,6 @@
 package com.company.GUI;
 
+import com.company.Model.DatabaseOperation;
 import com.company.Model.History;
 import com.company.Model.Item;
 
@@ -102,6 +103,12 @@ public class ItemList extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+    }
+
+    public static void main(String[] args) {
+        DatabaseOperation op = new DatabaseOperation();
+
+       System.out.println(op.getAllItems().size());
     }
 
 }

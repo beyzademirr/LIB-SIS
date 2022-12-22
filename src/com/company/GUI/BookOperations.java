@@ -92,6 +92,10 @@ public class BookOperations extends JFrame {
         });
     }
 
+    public BookOperations() {
+        operation = new DatabaseOperation();
+    }
+
     public void addItem(String location, String author, int year, int pages, boolean isAvailable, String name) {
         operation.addItem(location, author, year, pages, true, name);
     }

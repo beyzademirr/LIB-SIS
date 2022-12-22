@@ -40,13 +40,17 @@ public class LoginPage {
             }
         });
 
-
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SignUpPage signup = new SignUpPage(operation);
             }
         });
+    }
+
+    public LoginPage(JFrame jFrame) {
+        frame = jFrame;
+        operation = new DatabaseOperation();
     }
 
     public JPanel getPanel() {

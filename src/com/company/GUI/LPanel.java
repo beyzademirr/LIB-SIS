@@ -60,6 +60,10 @@ public class LPanel {
         });
     }
 
+    public LPanel() {
+        operation = new DatabaseOperation();
+    }
+
     public JPanel getHomePanel() {
         return homePanel;
     }

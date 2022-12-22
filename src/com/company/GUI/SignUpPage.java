@@ -73,7 +73,6 @@ public class SignUpPage extends JFrame {
     }
 
 
-
     public class SignUpListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {

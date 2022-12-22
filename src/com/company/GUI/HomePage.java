@@ -38,6 +38,10 @@ public class HomePage {
         });
     }
 
+    public HomePage() {
+        operation = new DatabaseOperation();
+    }
+
 
     public JPanel getPanel1() {
         return panel1;

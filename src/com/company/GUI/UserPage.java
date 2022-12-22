@@ -44,6 +44,10 @@ public class UserPage {
         });
     }
 
+    public UserPage() {
+        operation = new DatabaseOperation();
+    }
+
     public JPanel getPanel() {
         return Panel;
     }

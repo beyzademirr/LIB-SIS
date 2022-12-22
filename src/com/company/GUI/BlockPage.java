@@ -13,6 +13,10 @@ public class BlockPage extends JFrame {
     private JButton unBlockButton;
     private DatabaseOperation operation;
 
+    public BlockPage(){
+        operation = new DatabaseOperation();
+        setVisible(false);
+    }
     public BlockPage (DatabaseOperation operation){
         this.operation=operation;
         setContentPane(panel);

@@ -12,6 +12,11 @@ import java.util.ArrayList;
 public class AdminPage  {
     private JPanel panel;
     private JButton blockUnBlockStudentButton;
+
+    public AdminPage() {
+        databaseOperation = new DatabaseOperation();
+    }
+
     private JButton bookOperationsButton;
     private JButton seeReservationHistoryButton;
     private JFrame frame;

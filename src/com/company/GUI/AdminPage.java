@@ -54,7 +54,7 @@ public class AdminPage  {
         frame.setContentPane(sp.getPanel());
     }
 
-    private Container getPanel() {
+    public JPanel getPanel() {
         return panel;
     }
 }

@@ -14,7 +14,6 @@ public class BookOperations extends JFrame {
     private JButton removeRes;
     private JTextField itemId;
     private JTextField author;
-    private JTextField userId;
     private JTextField year;
     private JTextField pages;
     private JTextField location;

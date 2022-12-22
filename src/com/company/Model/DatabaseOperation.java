@@ -278,7 +278,7 @@ public class DatabaseOperation {
         return null;
     }
 
-    public ArrayList<Item> getAllItems(String name) {
+    public ArrayList<Item> getAllItems() {
         try {
 
             ArrayList<Item> items = new ArrayList<>();

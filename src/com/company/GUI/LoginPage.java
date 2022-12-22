@@ -27,9 +27,9 @@ public class LoginPage {
         frame.setVisible(true);
         
         frame.setSize(1600, 900);
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
+        //frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
 
@@ -58,9 +58,14 @@ public class LoginPage {
     public boolean login(String email, String password){
 
 
+
         if (operation.checkForAdminLogin(email, password)) {
-            System.out.println("Logged in");
-            //create admin login
+            AdminPage adminPage = new AdminPage(frame,operation);
+            frame.getContentPane().removeAll();
+            frame.setContentPane(adminPage.getPanel());
+            frame.pack();
+            frame.repaint();
+            frame.revalidate();
 
             return true;
 
@@ -74,10 +79,18 @@ public class LoginPage {
                 frame.setLayout(new BorderLayout());
 
                 Student student = operation.pullStudent(email);
-               // Library library = new Library(frame, operation, student);
+              // HomePage homePage = new Library(frame, operation, student);
                 //LPanel lPanel = new LPanel(frame, operation, garage, student);
                 //frame.getContentPane().add(library.productPanel, BorderLayout.CENTER);
                 //frame.getContentPane().add(lPanel.lPanel, BorderLayout.WEST);
+
+                UserPage userPage=new UserPage(operation, student);
+                HomePage homePage = new HomePage(operation, frame, student);
+                LPanel lPanel = new LPanel(student,operation,frame, homePage, userPage);
+
+                frame.getContentPane().add(homePage.getPanel1(), BorderLayout.CENTER);
+                frame.getContentPane().add(lPanel.getHomePanel(), BorderLayout.WEST);
+                frame.setSize(1600, 900);
                 frame.pack();
                 frame.repaint();
                 frame.revalidate();

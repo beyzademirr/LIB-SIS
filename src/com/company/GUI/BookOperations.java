@@ -70,7 +70,6 @@ public class BookOperations extends JFrame {
                     else{
                         operation.modifyItem(id, true);
                     }
-
                     dispose();
                 }
                 else{

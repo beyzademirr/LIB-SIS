@@ -51,8 +51,6 @@ public class HistoryTable extends JFrame{
                 //if(columnIndex==4) return Date.class;
                 //if(columnIndex==5) return int.class;
 
-
-
                 return null;
             }
 

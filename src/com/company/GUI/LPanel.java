@@ -29,12 +29,12 @@ public class LPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.getContentPane().removeAll();
-
                 frame.getContentPane().add(userPage.getPanel(), BorderLayout.CENTER);
                 frame.getContentPane().add(homePanel, BorderLayout.WEST);
                 frame.pack();
                 frame.repaint();
                 frame.revalidate();
+                frame.setSize(1600, 900);
 
             }
         });
@@ -42,12 +42,12 @@ public class LPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.getContentPane().removeAll();
-
                 frame.getContentPane().add(homePage.getPanel1(), BorderLayout.CENTER);
                 frame.getContentPane().add(homePanel, BorderLayout.WEST);
                 frame.pack();
                 frame.repaint();
                 frame.revalidate();
+                frame.setSize(1600, 900);
             }
         });
         books.addActionListener(new ActionListener() {

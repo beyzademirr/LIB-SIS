@@ -1,6 +1,7 @@
 package com.company.GUI;
 
 import com.company.Model.DatabaseOperation;
+import com.company.Model.Item;
 import com.company.Model.Student;
 
 import javax.swing.*;
@@ -23,7 +24,10 @@ public class UserPage {
             public void actionPerformed(ActionEvent e) {
                 if(!itemId.getText().equals("")){
                     int id = Integer.parseInt(itemId.getText());
-                    operation.reserveItemWithoutId(student.getStudentId(), id);
+                    boolean isReserved = operation.reserveItemWithoutId(student.getStudentId(), id);
+                    if(!student.isBlocked()){JOptionPane.showMessageDialog(null, "You are blocked, contact an admin");}
+                    else if(isReserved){JOptionPane.showMessageDialog(null, "Item is reserved successfully");}
+                    else{JOptionPane.showMessageDialog(null, "Item is not available");}
                 }else{
                     JOptionPane.showMessageDialog(null, "Item ID is missing!");
                 }
@@ -41,7 +45,6 @@ public class UserPage {
     public JPanel getPanel() {
         return Panel;
     }
-
 
     public static void main(String[] args) {
         DatabaseOperation op = new DatabaseOperation();

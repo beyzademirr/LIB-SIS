@@ -53,8 +53,6 @@ public class ItemList extends JFrame {
                 if(columnIndex==5) return boolean.class;
                 if(columnIndex==6) return String.class;
 
-
-
                 return null;
             }
 

@@ -37,9 +37,6 @@ public class SignUpPage extends JFrame {
 
     public boolean signUp(String email, String name, String surname, String password1, String password2) {
 
-
-
-
        if (email.equals("")) {
             JOptionPane.showMessageDialog(null, "Email cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -57,7 +54,7 @@ public class SignUpPage extends JFrame {
             boolean success = operation.addStudent(name, surname, email, password1);
             if (success) {
                 JOptionPane.showMessageDialog(null, "SignUp is successful, please login", "Information", JOptionPane.INFORMATION_MESSAGE);
-
+                dispose();
                 return true;
             }
             else {

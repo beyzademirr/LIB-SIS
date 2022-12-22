@@ -1,475 +1,266 @@
-package com.company.Model;
+import com.company.GUI.*;
+import com.company.Model.DatabaseOperation;
+import com.company.Model.History;
+import com.company.Model.Item;
+import com.company.Model.Student;
+import org.junit.Test;
 
 import javax.swing.*;
-import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
+import static org.junit.Assert.*;
 
-public class DatabaseOperation {
-    public Connection con;
-    public Statement statement;
-    public PreparedStatement preparedStatement;
+public class ProjectTest
 
-    boolean isConnected = false;
+{
+    DatabaseOperation dao = new DatabaseOperation();
 
-    public DatabaseOperation() {
+    @Test
+    public void AddAndPullTest(){
+        dao.addStudent("sample", "sampleSur", "sale@ozu.edu.tr","1234");
+        Student student = dao.pullStudent("sale@ozu.edu.tr");
+        assertEquals(student.getStudentPassword(), "1234");
+        dao.deleteStudent(student.getStudentId());
+    }
+    @Test
+    public void LoginTest(){
+        dao.addStudent("sample", "sampleSur", "lin@ozu.edu.tr","1234");
+        boolean isTrue = dao.checkForStudentLogin("lin@ozu.edu.tr","1234");
+        assertTrue(isTrue);
+        dao.deleteStudentByEmail("lin@ozu.edu.tr");
 
+    }
+    @Test
+    public void GetStudentHistoryTest(){
+
+        dao.addStudent("sample", "sampleSur", "sale@ozu.edu.tr","1234");
+        Student student = dao.pullStudent("sale@ozu.edu.tr");
+        dao.addItem("y","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("y");
+        dao.reserveItem(60, student.getStudentId(), item.getItemId());
+        ArrayList<History> history = dao.getStudentHistory(student.getStudentId());
+        assertEquals(history.get(history.size()-1).getItemID(),item.getItemId());
+        dao.removeRes(60);
+        dao.deleteItem(item.getItemId());
+        dao.deleteStudent(student.getStudentId());
+
+    }
+    @Test
+    public void AddItemTest(){
+        dao.addItem("y","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("y");
+        assertEquals(item.getLocation(), "y");
+        dao.deleteItem(item.getItemId());
+    }
+    @Test
+    public void ModifyItemTest(){
+        dao.addItemById(66,"x","s. sample", 1999,120,true,"hh");
+        dao.modifyItem(66, false);
+        Item item = dao.findItemById(66);
+        assertEquals(item.isAvailable(), false);
+        dao.deleteItem(item.getItemId());
+    }
+    @Test
+    public void DeleteItemTest(){
+        dao.addItem("y","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("y");
+        dao.deleteItem(item.getItemId());
+        item = dao.findItemByLocation("y");
+        assertNull(item);
+    }
+
+    @Test
+    public void SearchByNameTest(){
+        dao.addItem("ubuntu1","a", 1999,120,true,"hh");
+        ArrayList<Item> items = dao.findItemByName("hh");
+        Item item = items.get(items.size()-1);
+        assertEquals(item.getLocation(), "ubuntu1");
+        dao.deleteItem(item.getItemId());
+
+    }
+    @Test
+    public void SearchByIdTest(){
+        dao.addItemById(22,"uu","s. sample", 1999,120,true,"hh");
+        Item item = dao.findItemById(22);
+        assertEquals(item.getLocation(), "uu");
+        dao.deleteItem(22);
+    }
+    @Test
+    public void SearchByAuthorTest(){
+        dao.addItem("aa","p", 1999,120,true,"hh");
+        Item item = dao.findItemByAuthor("p").get(0);
+        assertEquals(item.getLocation(), "aa");
+        dao.deleteItem(item.getItemId());
+    }
+
+    @Test
+    public void GetHistoryTest(){
+        dao.reserveItem(55, 1,69);
+        ArrayList<History> histories = dao.getAllHistory();
+        assertEquals(histories.get(0).getHistoryID(), 11 );
+        dao.removeRes(55);
+    }
+
+    @Test
+    public void RemoveResTest(){
+        dao.addStudent("sample", "sampleSur", "sale@ozu.edu.tr","1234");
+        Student student = dao.pullStudent("sale@ozu.edu.tr");
+        dao.addItem("gg","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("gg");
+
+        dao.reserveItem(22, student.getStudentId(), item.getItemId());
+        History history = dao.getHistoryById(22);
+        dao.removeRes(22);
+        dao.deleteItem(item.getItemId());
+        dao.deleteStudent(student.getStudentId());
+
+        history = dao.getHistoryById(22);
+        assertNull(history);
+    }
+    @Test
+    public void ReserveTest(){
+        dao.addStudent("sample", "sampleSur", "sale@ozu.edu.tr","1234");
+        Student student = dao.pullStudent("sale@ozu.edu.tr");
+        dao.addItem("gg","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("gg");
+        dao.reserveItemWithoutId(student.getStudentId(), item.getItemId());
+        ArrayList<History> histories = dao.getAllHistory();
+        History history = histories.get(histories.size()-1);
+        assertEquals(history.getItemID(),item.getItemId() );
+
+        dao.removeRes(history.getHistoryID());
+        dao.deleteItem(item.getItemId());
+        dao.deleteStudent(student.getStudentId());
+    }
+    @Test
+    public void BlockStudentTest(){
+        dao.addStudent("sample", "sampleSur", "sale@ozu.edu.tr","1234");
+        Student student = dao.pullStudent("sale@ozu.edu.tr");
+        dao.blockStudent(student.getStudentId());
+        student = dao.pullStudent("sale@ozu.edu.tr");
+        assertEquals(student.isBlocked(), false);
+        dao.deleteStudent(student.getStudentId());
+    }
+    @Test
+    public void UnBlockStudentTest(){
+        dao.addStudent("sample", "sampleSur", "sale@ozu.edu.tr","1234");
+        Student student = dao.pullStudent("sale@ozu.edu.tr");
+        dao.unBlockStudent(student.getStudentId());
+        student = dao.pullStudent("sale@ozu.edu.tr");
+        assertEquals(student.isBlocked(), true);
+        dao.deleteStudent(student.getStudentId());
+    }
+    @Test
+    public void AdminPageTest(){
+        AdminPage adminPage = new AdminPage();
+        dao.addItem("gg","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("gg");
+        dao.addStudent("sample", "sampleSur", "yy","1234");
+        Student student = dao.pullStudent("yy");
+        dao.reserveItem(1111, student.getStudentId(),item.getItemId());
+        ArrayList<History> list = adminPage.getAllHistory();
+        assertEquals(list.get(list.size()-1).getItemID(), item.getItemId() );
+
+        dao.removeRes(1111);
+        dao.deleteItem(item.getItemId());
+        dao.deleteStudent(student.getStudentId());
+
+    }
+    @Test
+    public void HomePageTest(){
+        HomePage homePage = new HomePage();
+        dao.addItem("uu","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("uu");
+        ArrayList<Item> items = homePage.findItemByName(item.getName());
+        assertEquals(items.get(items.size()-1).getItemId(), item.getItemId() );
+        items = homePage.findItemByAuthor(item.getAuthor());
+        assertEquals(items.get(items.size()-1).getItemId(), item.getItemId() );
+        dao.deleteItem(item.getItemId());
+    }
+    @Test
+    public void BookOperationsTest(){
+        BookOperations bookOperations = new BookOperations();
+        bookOperations.addItem("y","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("y");
+        assertEquals(item.getLocation(), "y");
+
+        bookOperations.modifyItem(item.getItemId(), false);
+        item = dao.findItemById(item.getItemId());
+        assertEquals(item.isAvailable(), false);
+
+        bookOperations.deleteItem(item.getItemId());
+        item = dao.findItemById(item.getItemId());
+        assertNull(item);
+    }
+    @Test
+    public void AllItemsTest(){
+
+        dao.addItem("uu","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("uu");
+        ArrayList<Item> items = dao.getAllItems();
+
+        assertEquals(items.get(items.size()-1).getItemId(), item.getItemId() );
+        dao.deleteItem(item.getItemId());
+    }
+    @Test
+    public void LPanelTest(){
+        LPanel lpanel = new LPanel();
+        dao.addItem("uu","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("uu");
+        ArrayList<Item> items = lpanel.getAllItems();
+
+        assertEquals(items.get(items.size()-1).getItemId(), item.getItemId() );
+        dao.deleteItem(item.getItemId());
+    }
+
+    @Test
+    public void LoginPageTest(){
         JFrame frame = new JFrame();
-        String url = "jdbc:mysql://:" + Database.DBport + "/" + "lib-sis";
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Couldn't Find JDBC Driver");
-        }
-
-        try {
-            con = DriverManager.getConnection(url, Database.DBusername, Database.DBpassword);
-            System.out.println("Database Connection Successful");
-            isConnected = true;
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(frame, "Database Connection Fails.Try Again.");
-            System.exit(-1);
-        }
+        LoginPage login = new LoginPage(frame);
+        dao.addStudent("sample", "sampleSur", "sale@ozu.edu.tr","1234");
+        Student student = dao.pullStudent("sale@ozu.edu.tr");
+        login.login(student.getStudentMail(), student.getStudentPassword());
+        dao.deleteStudent(student.getStudentId());
     }
+    @Test
+    public void SignUpPageTest(){
+        SignUpPage signUpPage= new SignUpPage(dao);
 
+        signUpPage.setVisible(false);
 
-    public boolean checkForAdminLogin(String adminEmail, String adminPassword) {
-        try {
-            // Creating sql query
-            String query = "SELECT * FROM Admin WHERE AdminEmail = \"" + adminEmail + "\" AND AdminPassword = \"" + adminPassword + "\"";
-
-            // Creating statement for database
-            statement = con.createStatement();
-
-            ResultSet resultSet = statement.executeQuery(query);
-
-            // If the admin exists return true
-            if (resultSet.next()) {
-                return true;
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        // If the admin doesn't exists return false
-        return false;
+        signUpPage.signUp("az", "sampleSur", "z","1234","1234");
+        Student student = dao.pullStudent("az");
+        assertEquals(student.getStudentPassword(),"1234");
+        dao.deleteStudent(student.getStudentId());
+    }
+    @Test
+    public void UserPageTest(){
+        UserPage userPage = new UserPage();
+        dao.addStudent("sample", "sampleSur", "sale@ozu.edu.tr","1234");
+        Student student = dao.pullStudent("sale@ozu.edu.tr");
+        dao.addItem("y","s. sample", 1999,120,true,"sample");
+        Item item = dao.findItemByLocation("y");
+        dao.reserveItem(60, student.getStudentId(), item.getItemId());
+        ArrayList<History> history = userPage.getStudentHistory(student.getStudentId());
+        assertEquals(history.get(history.size()-1).getItemID(),item.getItemId());
+        dao.removeRes(60);
+        dao.deleteItem(item.getItemId());
+        dao.deleteStudent(student.getStudentId());
 
     }
-     public boolean checkForStudentLogin(String studentEmail, String studentPassword) {
+    @Test
+    public void blockPageTest(){
+        BlockPage blockPage = new BlockPage();
+        dao.addStudent("sample", "sampleSur", "sale@ozu.edu.tr","1234");
+        Student student = dao.pullStudent("sale@ozu.edu.tr");
+        blockPage.blockStudent(student.getStudentId());
+        student = dao.pullStudent("sale@ozu.edu.tr");
+        assertEquals(student.isBlocked(),false);
+        blockPage.unBlockStudent(student.getStudentId());
+        student = dao.pullStudent("sale@ozu.edu.tr");
+        assertEquals(student.isBlocked(),true);
 
-        try {
-
-            // Creating sql query
-            String query = "SELECT studentName FROM Student WHERE studentEmail = \"" + studentEmail + "\" AND studentPassword = \"" + studentPassword + "\"";
-
-            // Creating statement for database
-            statement = con.createStatement();
-
-            ResultSet resultSet = statement.executeQuery(query);
-
-            // If the student exists return true
-            if (resultSet.next()) {
-                return true;
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        // If the student doesn't exists return false
-        return false;
+        dao.deleteStudent(student.getStudentId());
 
     }
-
-    public boolean addStudent(String studentName, String studentSurname, String studentEmail, String studentPassword) {
-        try {
-
-            String query = "INSERT INTO Student (StudentName, StudentSurname, StudentEmail, StudentPassword, StudentStatus)  " +
-                    "VALUES (" +"'" + studentName + "','" + studentSurname + "','" + studentEmail + "','" + studentPassword + "',"+ true +");";
-            preparedStatement = con.prepareStatement(query);
-            preparedStatement.executeUpdate(query);
-
-            return true;
-        } catch (SQLIntegrityConstraintViolationException e) {
-            return false;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
-
-    }
-
-
-    public Student pullStudent(String studentEmail) {
-        try {
-
-            // Writing SQL query for push
-            String query = "SELECT * FROM Student WHERE studentEmail = '" + studentEmail + "'";
-            statement = con.createStatement();
-
-            // Creating ResultSet type to pull data from database
-            ResultSet resultSet = statement.executeQuery(query);
-
-            if (resultSet.next()) {
-                return new Student(resultSet.getInt("StudentID"), resultSet.getString("StudentName"),resultSet.getString("StudentSurname"), resultSet.getString("StudentEmail"), resultSet.getString("StudentPassword"), resultSet.getBoolean("StudentStatus"));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
-        return null;
-    }
-    public void deleteStudent(int ID) {
-
-        try {
-            String query = "DELETE FROM Student WHERE StudentID = " + ID + ";";
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-    public void deleteStudentByEmail(String email) {
-
-        try {
-            String query = "DELETE FROM Student WHERE StudentEmail= '" + email + "'";
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public void addItem(String location, String author, int year, int pages, boolean isAvailable, String name) {
-
-        try {
-
-            String query = "INSERT INTO Item (Author, Availability, Year, Pages, ItemName, Location) " +
-                    "VALUES (" +"'" + author + "'," + true + ",'" + year + "','" + pages + "','"+ name +"','" + location +"');";
-
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-        }
-    }
-    public void addItemById(int id, String location, String author, int year, int pages, boolean isAvailable, String name) {
-        try {
-            String query = "INSERT INTO Item (ItemID, Author, Availability, Year, Pages, ItemName, Location) " +
-                    "VALUES (" +"" + id + ",'"+ author + "'," + true + ",'" + year + "','" + pages + "','"+ name +"','" + location +"');";
-
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Item findItemById(int ID) {
-        try {
-            String query = "SELECT * FROM Item WHERE ItemID = " + ID + ";";
-            statement = con.createStatement();
-            ResultSet set = statement.executeQuery(query);
-            if(set.next()) {
-                Item item = new Item();
-                item.setItemId(set.getInt("ItemID"));
-                item.setLocation(set.getString("Location"));
-                item.setAuthor(set.getString("Author"));
-                item.setAvailable(set.getBoolean("Availability"));
-                item.setName(set.getString("ItemName"));
-                item.setPages( set.getInt("Pages"));
-                item.setYear(set.getInt("Year"));
-                return item;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return null;
-    }
-    public Item findItemByLocation(String location) {
-        try {
-            String query = "SELECT * FROM Item WHERE Location = '" + location + "'";
-            statement = con.createStatement();
-            ResultSet set = statement.executeQuery(query);
-            if(set.next()) {
-                Item item = new Item();
-                item.setItemId(set.getInt("ItemID"));
-                item.setLocation(set.getString("Location"));
-                item.setAuthor(set.getString("Author"));
-                item.setAvailable(set.getBoolean("Availability"));
-                item.setName(set.getString("ItemName"));
-                item.setPages( set.getInt("Pages"));
-                item.setYear(set.getInt("Year"));
-                return item;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public ArrayList<Item> findItemByName(String name) {
-        try {
-
-            ArrayList<Item> items = new ArrayList<>();
-            String query = "SELECT * FROM Item WHERE ItemName = '" + name + "';";
-            statement = con.createStatement();
-            ResultSet set = statement.executeQuery(query);
-
-            while (set.next()) {
-                Item item = new Item();
-                item.setItemId(set.getInt("ItemID"));
-                item.setLocation(set.getString("Location"));
-                item.setAuthor(set.getString("Author"));
-                item.setAvailable(set.getBoolean("Availability"));
-                item.setName(set.getString("ItemName"));
-                item.setPages( set.getInt("Pages"));
-                item.setYear(set.getInt("Year"));
-                items.add(item);
-            }
-
-            return items;
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return null;
-    }
-    public ArrayList<Item> findItemByAuthor(String name) {
-        try {
-
-            ArrayList<Item> items = new ArrayList<>();
-            String query = "SELECT * FROM Item WHERE Author = '" + name + "';";
-            statement = con.createStatement();
-            ResultSet set = statement.executeQuery(query);
-
-            while (set.next()) {
-                Item item = new Item();
-                item.setItemId(set.getInt("ItemID"));
-                item.setLocation(set.getString("Location"));
-                item.setAuthor(set.getString("Author"));
-                item.setAvailable(set.getBoolean("Availability"));
-                item.setName(set.getString("ItemName"));
-                item.setPages( set.getInt("Pages"));
-                item.setYear(set.getInt("Year"));
-                items.add(item);
-            }
-
-            return items;
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public ArrayList<Item> getAllItems() {
-        try {
-
-            ArrayList<Item> items = new ArrayList<>();
-            String query = "SELECT * FROM Item;";
-            statement = con.createStatement();
-            ResultSet set = statement.executeQuery(query);
-
-
-            while (set.next()) {
-                Item item = new Item();
-                item.setItemId(set.getInt("ItemID"));
-                item.setLocation(set.getString("Location"));
-                item.setAuthor(set.getString("Author"));
-                item.setAvailable(set.getBoolean("Availability"));
-                item.setName(set.getString("ItemName"));
-                item.setPages( set.getInt("Pages"));
-                item.setYear(set.getInt("Year"));
-                items.add(item);
-
-            }
-
-            return items;
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public void modifyItem(int ID, boolean status) {
-
-        try {
-            String query = "UPDATE Item SET Availability = " + status + " WHERE ItemID= "+ ID +"";
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-    public void deleteItem(int ID) {
-        try {
-           String query = "DELETE FROM Item WHERE ItemID = " + ID + "";
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-    public void blockStudent( int ID){
-        try {
-            String query = "UPDATE Student SET StudentStatus = " + false + " WHERE StudentID= "+ ID +"";
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-    public void unBlockStudent( int ID){
-        try {
-            String query = "UPDATE Student SET StudentStatus = " + true + " WHERE StudentID= "+ ID +"";
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public void reserveItem(int resId, int studentId, int itemId){
-        try {
-            java.util.Date utilDate = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-            String query = "INSERT INTO Reservations (ResID, StudentID,ItemID,ResTime) " +
-                    "VALUES (" +"" + resId + ", "+ studentId + "," + itemId + ",'" + sqlDate +"');";
-
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-            modifyItem(itemId, false);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-   public boolean reserveItemWithoutId(int studentId, int itemId){
-        try {
-            Item item = findItemById(itemId);
-            if(item==null) return false;
-           else if(item.isAvailable()){
-            java.util.Date utilDate = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-            String query = "INSERT INTO Reservations (StudentID,ItemID,ResTime) " +
-                    "VALUES (" +""+ studentId + "," + itemId + ",'" + sqlDate +"');";
-
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-            modifyItem(itemId, false);
-            }
-
-            else return false;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-        }
-
-        return false;
-    }
-
-    public void removeRes(int ID) {
-        try {
-            History history = getHistoryById(ID);
-            modifyItem(history.getItemID(), true);
-
-            String query = "DELETE FROM Reservations WHERE ResID = " + ID + "";
-            statement = con.createStatement();
-            statement.executeUpdate(query);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public ArrayList<History> getAllHistory(){
-        try {
-            ArrayList<History> historyList = new ArrayList<>();
-            String query = "SELECT * FROM Reservations;";
-            statement = con.createStatement();
-            ResultSet set = statement.executeQuery(query);
-
-            while (set.next()) {
-                History history = new History();
-                history.setHistoryID(set.getInt("ResID"));
-                history.setStudentID(set.getInt("StudentID"));
-                history.setItemID(set.getInt("ItemID"));
-                history.setResTime(set.getDate("ResTime"));
-                historyList.add(history);
-            }
-
-            return historyList;
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return null;
-    }
-    public ArrayList<History> getStudentHistory(int id){
-        try {
-            ArrayList<History> historyList = new ArrayList<>();
-            String query = "SELECT * FROM Reservations WHERE StudentId = "+ id +";";
-            statement = con.createStatement();
-            ResultSet set = statement.executeQuery(query);
-
-            while (set.next()) {
-                History history = new History();
-                history.setHistoryID(set.getInt("ResID"));
-                history.setStudentID(set.getInt("StudentID"));
-                history.setItemID(set.getInt("ItemID"));
-                history.setResTime(set.getDate("ResTime"));
-                historyList.add(history);
-            }
-            return historyList;
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public History getHistoryById(int ID) {
-        try {
-            String query = "SELECT * FROM Reservations WHERE ResID = " + ID + ";";
-            statement = con.createStatement();
-            ResultSet set = statement.executeQuery(query);
-            if(set.next()) {
-                History history = new History();
-                history.setHistoryID(set.getInt("ResID"));
-                history.setItemID(set.getInt("ItemID"));
-                history.setStudentID(set.getInt("StudentID"));
-                history.setResTime(set.getDate("ResTime"));
-                return history;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return null;
-    }
-
 
 }

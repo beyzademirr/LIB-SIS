@@ -368,8 +368,11 @@ public class DatabaseOperation {
             e.printStackTrace();
         }
     }
-    public void reserveItemWithoutId(int studentId, int itemId){
+   public boolean reserveItemWithoutId(int studentId, int itemId){
         try {
+            Item item = findItemById(itemId);
+            if(item==null) return false;
+           else if(item.isAvailable()){
             java.util.Date utilDate = new java.util.Date();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
@@ -379,10 +382,16 @@ public class DatabaseOperation {
             statement = con.createStatement();
             statement.executeUpdate(query);
             modifyItem(itemId, false);
+            }
+
+            else return false;
 
         } catch (SQLException e) {
             e.printStackTrace();
+
         }
+
+        return false;
     }
 
     public void removeRes(int ID) {

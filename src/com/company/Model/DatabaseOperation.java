@@ -382,6 +382,7 @@ public class DatabaseOperation {
             statement = con.createStatement();
             statement.executeUpdate(query);
             modifyItem(itemId, false);
+               return true;
             }
 
             else return false;
